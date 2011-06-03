@@ -1,2 +1,0 @@
-h1 @req.params.page
-p @foo

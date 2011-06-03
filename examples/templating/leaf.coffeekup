@@ -1,0 +1,5 @@
+h3 "this is leaf template"
+
+div "this is foo: ", ->
+  span @foo
+

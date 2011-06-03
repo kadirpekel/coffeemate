@@ -1,0 +1,8 @@
+h2 "this is nested template"
+
+div "this is foo: ", ->
+  span @foo
+  
+div ->
+  include 'leaf.coffeekup', @
+

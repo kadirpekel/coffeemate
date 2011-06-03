@@ -1,0 +1,8 @@
+h1 "this is main template"
+
+div "this is foo: ", ->
+  span @foo
+  
+div ->
+  include 'nested.coffeekup', @
+
