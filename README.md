@@ -1,4 +1,5 @@
-
+``` coffeescript
+###
         (
      (   )
       )_) __(
@@ -13,4 +14,15 @@
    `-.._____..-'
   
  the coffee creamer!
- 
+###
+
+mate = require 'coffeemate'
+
+mate.get '/hi/:dude', ->
+  @resp.end 'Hi ' + @req.params.dude
+
+mate.listen 3000
+
+# please stay tuned. <http://twitter.com/kadirpekel>
+
+```
