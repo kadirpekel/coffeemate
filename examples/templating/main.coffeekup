@@ -4,4 +4,4 @@ div "this is foo: ", ->
   span @foo
   
 div ->
-  include 'nested.coffeekup', @
+  include 'nested.coffeekup'
