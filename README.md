@@ -1,20 +1,10 @@
-```
-        (
-     (   )
-      )_) __(
-   .-(   )   )-.
-  |`-.._____..-';-.
-  |              _ \
-  |   coffee    | ) )
-  |    mate     |/ /
-  !              /
-   `-.._____..-'
-  
- the coffee creamer!
-```
-
 Coffeemate!
 ===========
+```
+     )
+     (
+   C[_] coffeemate, the coffee creamer!
+```
 coffeemate is a web framework built on top of connect and specialized for writing web apps comfortably in coffeescript.
 
 First Glance
