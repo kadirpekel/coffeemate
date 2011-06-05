@@ -74,4 +74,29 @@ div ->
   include 'nested.coffeekup'
 ```
 
+Helpers
+-------
+``` coffeescript
+mate = require '../../lib/coffeemate'
+
+mate.helpers.highlight = (msg) ->
+  text "<span style=\"background-color:#ff0\">#{msg}</span>"
+    
+mate.get '/', ->
+  @render 'main.coffeekup'
+
+mate.listen 3000
+```
+
+```
+# main.coffeekup
+
+h1 "Demonstrating helpers"
+
+div ->
+  highlight "This is a highlighted text"
+```
+
+Disclaimer
+----------
 coffeemate is currently in early stages, please stay tuned! <http://twitter.com/kadirpekel>
