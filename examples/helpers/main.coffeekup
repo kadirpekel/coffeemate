@@ -1,0 +1,4 @@
+h1 "Demonstrating helpers"
+
+div ->
+  highlight "This is a highlighted text"
