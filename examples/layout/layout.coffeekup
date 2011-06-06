@@ -1,0 +1,7 @@
+html ->
+  head ->
+  body ->
+    div "This is HEADER"
+    div ->
+      include @content
+    div "This is FOOTER"
