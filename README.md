@@ -77,7 +77,7 @@ div ->
 Helpers
 -------
 ``` coffeescript
-mate = require '../../lib/coffeemate'
+mate = require 'coffeemate'
 
 mate.helpers.highlight = (msg) ->
   text "<span style=\"background-color:#ff0\">#{msg}</span>"
@@ -95,6 +95,60 @@ h1 "Demonstrating helpers"
 
 div ->
   highlight "This is a highlighted text"
+```
+
+Extensions
+----------
+``` coffeescript
+mate = require 'coffeemate'
+
+# simply extend the coffeemate context
+mate.context.send_xml = (msg) ->
+  @resp.setHeader 'Content-Type', 'text/xml'
+  @resp.end "<node>#{msg}</node>"
+
+# use the extension
+mate.get '/', ->
+  @send_xml 'Hello World'
+
+mate.listen 3000
+```
+
+Layouts
+-------
+``` coffeescript
+mate = require 'coffeemate'
+
+# build your own layout structure using extensions
+mate.context.custom_render = (template_name) ->
+  @content = template_name
+  @render 'layout.coffeekup'
+
+mate.get '/', ->
+  @foo = 'bar'
+  @custom_render 'main.coffeekup'
+
+mate.listen 3000
+```
+
+``` coffeescript
+# layout.coffeekup
+
+html ->
+  head ->
+  body ->
+    div "This is HEADER"
+    div ->
+      include @content
+    div "This is FOOTER"
+```
+
+``` coffeescript
+# main.coffeekup
+
+blockquote "This is main content", ->
+  p "Also this is foo: ", ->
+    span "#{@foo}"
 ```
 
 Disclaimer
