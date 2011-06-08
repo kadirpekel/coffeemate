@@ -1,0 +1,3 @@
+<h2>this is nested template</h2>
+<div>This is foo: <%= @foo %></div>
+<div><%- @include 'leaf.eco' %></div>

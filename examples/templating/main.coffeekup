@@ -1,7 +1,0 @@
-h1 "this is main template for path: #{@req.url}"
-
-div "this is foo: ", ->
-  span @foo
-  
-div ->
-  include 'nested.coffeekup'

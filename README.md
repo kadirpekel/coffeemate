@@ -1,9 +1,9 @@
 Coffeemate!
 ===========
 ```
-     )
-     (
-   C[_] coffeemate, the coffee creamer!
+   )
+   (
+ C[_] coffeemate, the coffee creamer!
 ```
 coffeemate is a web framework built on top of connect and specialized for writing web apps comfortably in coffeescript.
 
@@ -44,7 +44,7 @@ mate.logger()
 mate.static(__dirname + '/public')
 
 mate.get '/', ->
-  @render 'main.coffeekup'
+  @render 'main.eco'
     
 mate.listen 3000
 ```
@@ -57,44 +57,17 @@ mate = require 'coffeemate'
 mate.get '/:page?', ->
 	# this is a context variable
   @foo = 'bar'
-  @render 'main.coffeekup'
+  @render 'main.eco'
 
 mate.listen 3000
 ```
 
-```
-# main.coffeekup
+``` html
+# main.eco
 
-h1 "this is main template for path: #{@req.url}"
-
-div "this is foo: ", ->
-  span @foo
-
-div ->
-  include 'nested.coffeekup'
-```
-
-Helpers
--------
-``` coffeescript
-mate = require 'coffeemate'
-
-mate.helpers.highlight = (msg) ->
-  text "<span style=\"background-color:#ff0\">#{msg}</span>"
-    
-mate.get '/', ->
-  @render 'main.coffeekup'
-
-mate.listen 3000
-```
-
-```
-# main.coffeekup
-
-h1 "Demonstrating helpers"
-
-div ->
-  highlight "This is a highlighted text"
+<h1>this is main template for path: <%= @req.url %></h1>
+<div>This is foo: <%= @foo %></div>
+<div><%- @include 'nested.eco' %></div>
 ```
 
 Extensions
@@ -114,6 +87,29 @@ mate.get '/', ->
 mate.listen 3000
 ```
 
+Helpers (Extensions)
+--------------------
+``` coffeescript
+mate = require 'coffeemate'
+
+mate.context.highlight = (msg) ->
+	"<span style=\"background-color:#ff0\">#{msg}</span>"
+    
+mate.get '/', ->
+  @render 'main.eco'
+
+mate.listen 3000
+```
+
+``` html
+# main.eco
+
+<h1>Demonstrating helpers</h1>
+<div>
+  <%- @highlight "This is a highlighted text" %>
+</div>
+```
+
 Layouts
 -------
 ``` coffeescript
@@ -122,33 +118,35 @@ mate = require 'coffeemate'
 # build your own layout structure using extensions
 mate.context.custom_render = (template_name) ->
   @content = template_name
-  @render 'layout.coffeekup'
+  @render 'layout.eco'
 
 mate.get '/', ->
   @foo = 'bar'
-  @custom_render 'main.coffeekup'
+  @custom_render 'main.eco'
 
 mate.listen 3000
 ```
 
-``` coffeescript
-# layout.coffeekup
+``` html
+# layout.eco
 
-html ->
-  head ->
-  body ->
-    div "This is HEADER"
-    div ->
-      include @content
-    div "This is FOOTER"
+<html>
+  <head></head>
+  <body>
+    <div>This is HEADER</div>
+    <div><%- @include @content %></div>
+    <div>This is FOOTER</div>
+  </body>
+</html>
 ```
 
 ``` coffeescript
-# main.coffeekup
+# main.eco
 
-blockquote "This is main content", ->
-  p "Also this is foo: ", ->
-    span "#{@foo}"
+<blockquote>
+  This is main content
+  <p>Also this is foo: <%= @foo %></p>
+</blockquote>
 ```
 
 Disclaimer

@@ -1,4 +1,0 @@
-blockquote "This is main content", ->
-  p "Also this is foo: ", ->
-    span "#{@foo}"
-    

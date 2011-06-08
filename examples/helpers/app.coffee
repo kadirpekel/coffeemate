@@ -1,9 +1,9 @@
 mate = require '../../lib/coffeemate'
 
-mate.helpers.highlight = (msg) ->
-  text "<span style=\"background-color:#ff0\">#{msg}</span>"
+mate.context.highlight = (msg) ->
+  "<span style=\"background-color:#ff0\">#{msg}</span>"
     
 mate.get '/', ->
-  @render 'main.coffeekup'
+  @render 'main.eco'
 
 mate.listen 3000

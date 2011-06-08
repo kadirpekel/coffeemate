@@ -9,10 +9,10 @@ mate.context.authenticate = ->
   return authenticated
 
 mate.get '/', ->
-  @render 'main.coffeekup' if @authenticate()
+  @render 'main.eco' if @authenticate()
 
 mate.get '/login', ->
-  @render 'login.coffeekup'
+  @render 'login.eco'
 
 mate.post '/login', ->
   authenticated = @req.body.user is 'coffee' and @req.body.pass is 'mate'

@@ -1,0 +1,4 @@
+<h1>Demonstrating helpers</h1>
+<div>
+  <%- @highlight "This is a highlighted text" %>
+</div>

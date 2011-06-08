@@ -1,5 +1,5 @@
 { "readme": "http://github.com/coffeemate/coffeematel#readme"
-, "version": "0.0.3"
+, "version": "0.1.0"
 , "description": "the coffee creamer!"
 , "main": "lib/coffeemate.js"
 , "author": "Kadir Pekel <kadirpekel@gmail.com>"
@@ -8,8 +8,7 @@
 , "dependencies":
   {
     "connect": ">= 1.0.0",
-    "coffee-script": ">= 1.1.0",
-    "coffeekup": ">= 0.2.3"
+    "eco": ">= 1.0.0"
   }
 , "repository" :
   {

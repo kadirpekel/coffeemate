@@ -1,0 +1,2 @@
+<h3>this is leaf template</h3>
+<div>This is foo: <%= @foo %></div>
