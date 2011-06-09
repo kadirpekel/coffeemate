@@ -1,0 +1,10 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <img src="coffeescript.png" />
+    <%- @include @view %>
+    <hr />
+    <a href="/">home</a>
+  </body>
+</html>
