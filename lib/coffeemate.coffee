@@ -100,7 +100,7 @@ class Coffeemate extends connect.HTTPServer
   # @return {Server}
   # @api public
   use: (args...) ->
-    arg.buildRouter for arg in args if arg instanceof Coffeemate
+    arg.buildRouter() for arg in args when arg instanceof Coffeemate
     connect.HTTPServer::use.apply @, args
     
   # Build connect router middleware from internal route stack and automatically use it.
@@ -109,7 +109,7 @@ class Coffeemate extends connect.HTTPServer
   buildRouter: () ->
     @use @middleware.router (app) =>
       for route in @routes
-        do (route) ->
+        do (route) =>
           app[route.method] route.pattern, (req, resp) =>
             new CoffeemateContext(@, req, resp).__callback(route)
     
