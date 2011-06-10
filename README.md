@@ -35,6 +35,28 @@ mate.get '/greetif/:name?', ->
 mate.listen 3000
 ```
 
+Route Chaining
+------
+``` coffeescript
+mate = require 'coffeemate'
+
+mate
+
+.get '/this', ->
+ 	@resp.end 'This'
+  
+.post '/is', ->
+ 	@resp.end 'is'
+
+.put '/chaining', ->
+  @resp.end 'chaining'
+	
+.del '/example', ->
+  @resp.end 'example'
+	
+.listen 3000
+```
+
 Middleware
 ----------
 ``` coffeescript
