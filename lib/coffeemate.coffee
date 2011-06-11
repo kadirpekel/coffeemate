@@ -10,14 +10,9 @@ path      = require 'path'
 connect   = require 'connect'
 eco       = require 'eco'
 
-
 # Context object that instantiated in every request to
 # form router handlers' and templates'  @/this reference
 class CoffeemateContext
-
-  #extension point that provides a relative base path for templates
-  basepath: ''
-  
   # constructor
   #
   # @param {Object} container
@@ -25,10 +20,6 @@ class CoffeemateContext
   # @param {Object} resp
   # @api public
   constructor: (@container, @req, @resp) ->
-  
-  # This is a special method for internal use that binds route handler
-  # to current CoffeemateContext instance. 
-  __callback: (route) -> route.callback.apply @
   
   # Simple built-in extension that sends http redirect to client
   #
@@ -46,10 +37,12 @@ class CoffeemateContext
   # @param {String} dirname (optional)
   # @api public
   render: (templateName) ->
-    templatePath = path.join process.cwd(), @basepath, templateName
+    renderExt = @container.options.renderExt
+    renderDir = @container.options.renderDir
+    templatePath = path.join process.cwd(), renderDir, "#{templateName}#{renderExt}"
     fs.readFile templatePath, (err, template) =>
       if err then throw err
-      @resp.end eco.render "#{template}", @
+      @resp.end @container.options.renderFunc "#{template}", @
   
   # This method renders and includes the partial template that read and rendered
   # from given partial template name.
@@ -60,7 +53,7 @@ class CoffeemateContext
   include: (partialName) ->
     partialPath = path.join process.cwd(), @basepath, partialName
     partial = fs.readFileSync partialPath
-    eco.render "#{partial}", @
+    @renderFunc "#{partial}", @
 
 # Coffeemate core object
 # Kindly extends connect.HTTPServer and pours some sugar on it.
@@ -81,7 +74,7 @@ class Coffeemate extends connect.HTTPServer
   #
   # @api public
   constructor: () ->
-    @options = []
+    @options = renderFunc: eco.render, renderDir: '', renderExt: ''
     @routes = []
     connect.HTTPServer.call @, []
 
@@ -102,7 +95,14 @@ class Coffeemate extends connect.HTTPServer
   use: (args...) ->
     arg.buildRouter() for arg in args when arg instanceof Coffeemate
     connect.HTTPServer::use.apply @, args
-    
+  
+  # sugarize coffeekup!
+  #
+  # @api public
+  coffeekup: ->
+    renderFunc = require('coffeekup').render
+    @options.renderFunc = (tmpl, ctx) -> renderFunc tmpl, context: ctx
+
   # Build connect router middleware from internal route stack and automatically use it.
   # 
   # @api private
@@ -111,8 +111,8 @@ class Coffeemate extends connect.HTTPServer
       for route in @routes
         do (route) =>
           app[route.method] route.pattern, (req, resp) =>
-            new CoffeemateContext(@, req, resp).__callback(route)
-    
+            route.callback.apply new CoffeemateContext(@, req, resp)
+
   # Override 'connect.HTTPServer.listen' to create a pre-hook space for
   # preparing router definitions
   # 
