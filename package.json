@@ -1,5 +1,5 @@
 { "readme": "http://github.com/coffeemate/coffeematel#readme"
-, "version": "0.2.1"
+, "version": "0.2.2"
 , "description": "the coffee creamer!"
 , "main": "lib/coffeemate.coffee"
 , "author": "Kadir Pekel <kadirpekel@gmail.com>"
