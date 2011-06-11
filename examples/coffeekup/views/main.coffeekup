@@ -1,0 +1,5 @@
+html ->
+  head
+  body ->
+    h1 "Kup of coffee"
+    div @highlight @foo
