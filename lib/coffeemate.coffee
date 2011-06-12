@@ -37,9 +37,9 @@ class CoffeemateContext
   # @param {String} dirname (optional)
   # @api public
   render: (templateName) ->
-    renderExt = @container.options.renderExt
-    renderDir = @container.options.renderDir
-    templatePath = path.join process.cwd(), renderDir, "#{templateName}#{renderExt}"
+    templatePath = path.join process.cwd(),
+      @container.options.renderDir,
+      "#{templateName}#{@container.options.renderExt}"
     fs.readFile templatePath, (err, template) =>
       if err then throw err
       @resp.end @container.options.renderFunc "#{template}", @
@@ -51,9 +51,11 @@ class CoffeemateContext
   # @return {String}
   # @api public
   include: (partialName) ->
-    partialPath = path.join process.cwd(), @basepath, partialName
+    partialPath = path.join process.cwd(),
+      @container.options.renderDir,
+      "#{partialName}#{@container.options.renderExt}"
     partial = fs.readFileSync partialPath
-    @renderFunc "#{partial}", @
+    @container.options.renderFunc "#{partial}", @
 
 # Coffeemate core object
 # Kindly extends connect.HTTPServer and pours some sugar on it.
