@@ -7,169 +7,62 @@ Coffeemate!
 ```
 coffeemate is a web framework built on top of connect and specialized for writing web apps comfortably in coffeescript.
 
-First Glance
-------------
+
+What is it look like?
+---------------------
+
 ``` coffeescript
+# app.coffee
+
+" Require it
 mate = require 'coffeemate'
 
-mate.get '/', ->
-  @resp.end 'Hello World'
-
-mate.listen 3000
-```
-
-Router
-------
-``` coffeescript
-mate = require 'coffeemate'
-
-mate.get '/', ->
-  @resp.end 'Hello World'
-  
-mate.get '/greet/:name', ->
-  @resp.end 'Hello ' + @req.params.name
-
-mate.get '/greetif/:name?', ->
-  @resp.end 'Hello ' + (@req.params.name or 'World')
-
-mate.listen 3000
-```
-
-Route Chaining
-------
-``` coffeescript
-mate = require 'coffeemate'
-
-mate
-
-.get '/this', ->
- 	@resp.end 'This'
-  
-.post '/is', ->
- 	@resp.end 'is'
-
-.put '/chaining', ->
-  @resp.end 'chaining'
-	
-.del '/example', ->
-  @resp.end 'example'
-	
-.listen 3000
-```
-
-Middleware
-----------
-``` coffeescript
-mate = require 'coffeemate'
-
+# Connect it
 mate.logger()
 mate.static(__dirname + '/public')
 
-mate.get '/', ->
-  @render 'main.eco'
-    
-mate.listen 3000
-```
+# Extend it
+mate.context.highlight = (color, txt) ->
+  "<span style=\"background-color:#{color}\">#{txt}</span>"
 
-Templating
-----------
-``` coffeescript
-mate = require 'coffeemate'
+# Route it
+mate
+  .get '/greet/:name', ->
+    # this is context variable
+    @greet_msg = "Hello, {@req.params.name}"
+    @resp.render 'home.eco'
 
-mate.get '/:page?', ->
-	# this is a context variable
-  @foo = 'bar'
-  @render 'main.eco'
-
+# Listen it
 mate.listen 3000
 ```
 
 ``` html
-# main.eco
+<!-- main.eco -->
 
-<h1>this is main template for path: <%= @req.url %></h1>
-<div>This is foo: <%= @foo %></div>
+<h1>Welcome to Coffeemate</h1>
+<div><%- @highlight '#f00', @greet_msg %></div>
 <div><%- @include 'nested.eco' %></div>
 ```
 
-Extensions
-----------
-``` coffeescript
-mate = require 'coffeemate'
-
-# simply extend the coffeemate context
-mate.context.send_xml = (msg) ->
-  @resp.setHeader 'Content-Type', 'text/xml'
-  @resp.end "<node>#{msg}</node>"
-
-# use the extension
-mate.get '/', ->
-  @send_xml 'Hello World'
-
-mate.listen 3000
-```
-
-Helpers (Extensions)
---------------------
-``` coffeescript
-mate = require 'coffeemate'
-
-mate.context.highlight = (msg) ->
-	"<span style=\"background-color:#ff0\">#{msg}</span>"
-    
-mate.get '/', ->
-  @render 'main.eco'
-
-mate.listen 3000
-```
-
 ``` html
-# main.eco
+<!-- nested.eco -->
 
-<h1>Demonstrating helpers</h1>
-<div>
-  <%- @highlight "This is a highlighted text" %>
-</div>
+<h2>I'm a partial template</h2>
+<div><%- @highlight '#ff0', @greet_msg %></div>
 ```
 
-Layouts
--------
-``` coffeescript
-mate = require 'coffeemate'
+Hmmm, What to expect more?
 
-# build your own layout structure using extensions
-mate.context.custom_render = (template_name) ->
-  @content = template_name
-  @render 'layout.eco'
+Demos & Examples
+----------------
 
-mate.get '/', ->
-  @foo = 'bar'
-  @custom_render 'main.eco'
+See plenty of examples
 
-mate.listen 3000
-```
+<https://github.com/coffeemate/coffeemate/tree/master/examples>
 
-``` html
-# layout.eco
+Also wanna see something real and cool? Check coffeegrind, the boilerplate lets you give a great start.
 
-<html>
-  <head></head>
-  <body>
-    <div>This is HEADER</div>
-    <div><%- @include @content %></div>
-    <div>This is FOOTER</div>
-  </body>
-</html>
-```
-
-``` coffeescript
-# main.eco
-
-<blockquote>
-  This is main content
-  <p>Also this is foo: <%= @foo %></p>
-</blockquote>
-```
+<https://github.com/twilson63/coffeegrind>
 
 Disclaimer
 ----------
