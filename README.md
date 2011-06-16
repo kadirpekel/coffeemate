@@ -6,6 +6,7 @@ Coffeemate!
  C[_] coffeemate, the coffee creamer!
 ```
 coffeemate is a web framework built on top of connect and specialized for writing web apps comfortably in coffeescript.
+It uses eco template engine by default for fullfill coffeescript experience.
 
 
 What is it look like?
@@ -52,6 +53,13 @@ mate.listen 3000
 ```
 
 Hmmm, What to expect more?
+
+Install
+-------
+
+```
+$ npm install coffeemate
+```
 
 Demos & Examples
 ----------------
