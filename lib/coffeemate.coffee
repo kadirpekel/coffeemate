@@ -34,7 +34,6 @@ class CoffeemateContext
   # template contents
   #
   # @param {String} templateName
-  # @param {String} dirname (optional)
   # @api public
   render: (templateName) ->
     templatePath = path.join process.cwd(),
@@ -47,7 +46,7 @@ class CoffeemateContext
   # This method renders and includes the partial template that read and rendered
   # from given partial template name.
   #
-  # @param {Function} partialName
+  # @param {String} partialName
   # @return {String}
   # @api public
   include: (partialName) ->
