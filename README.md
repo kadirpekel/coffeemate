@@ -14,7 +14,7 @@ What is it look like?
 ``` coffeescript
 # app.coffee
 
-" Require it
+# Require it
 mate = require 'coffeemate'
 
 # Connect it
