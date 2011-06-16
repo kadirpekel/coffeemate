@@ -74,7 +74,7 @@ class Coffeemate extends connect.HTTPServer
   # constructor
   #
   # @api public
-  constructor: () ->
+  constructor: ->
     @options = renderFunc: eco.render, renderDir: '', renderExt: ''
     @routes = []
     connect.HTTPServer.call @, []
@@ -83,7 +83,7 @@ class Coffeemate extends connect.HTTPServer
   # 
   # @return {Object}
   # @api public
-  newInstance: () ->
+  newInstance: ->
     new Coffeemate
   
   # Override 'connect.HTTPServer.use' method so if any argument is a Coffeemate instance
@@ -107,7 +107,7 @@ class Coffeemate extends connect.HTTPServer
   # Build connect router middleware from internal route stack and automatically use it.
   # 
   # @api private
-  buildRouter: () ->
+  buildRouter: ->
     @use @middleware.router (app) =>
       for route in @routes
         do (route) =>
