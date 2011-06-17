@@ -20,7 +20,7 @@ mate = require 'coffeemate'
 
 # Connect it
 mate.logger()
-mate.static(__dirname + '/public')
+mate.static("#{__dirname}/public")
 
 # Extend it
 mate.context.highlight = (color, txt) ->
@@ -30,7 +30,7 @@ mate.context.highlight = (color, txt) ->
 mate
   .get '/greet/:name', ->
     # this is context variable
-    @greet_msg = "Hello, {@req.params.name}"
+    @greet_msg = "Hello, #{@req.params.name}"
     @resp.render 'home.eco'
 
 # Listen it
