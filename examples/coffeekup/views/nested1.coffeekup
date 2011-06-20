@@ -1,0 +1,2 @@
+p ->
+  highlight "#0ff", "This is a highlighted text"

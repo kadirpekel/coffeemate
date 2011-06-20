@@ -1,5 +1,7 @@
 html ->
   head
   body ->
-    h1 "Kup of coffee"
-    div @highlight @foo
+    h1 "A cup of coffee demonstration"
+    include "nested1"
+    include "nested2"
+    include "nested3"

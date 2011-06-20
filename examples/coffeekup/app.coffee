@@ -5,14 +5,10 @@ mate = require '../../lib/coffeemate'
 mate.options.renderExt = '.coffeekup'
 mate.options.renderDir = 'views'
 
-# bind coffeekup explicitly
-mate.options.renderFunc = (tmpl, ctx) ->
-  coffeekup.render tmpl, context: ctx
-# or use the shortcut sugar below
-# mate.coffeekup()
+# Bind coffeekup with an helper
 
-mate.context.highlight = (msg) ->
-  "<span style=\"background-color:#ff0\">#{msg}</span>"
+mate.coffeekup highlight: (color, msg) ->
+  text "<span style=\"background-color:#{color}\">#{msg}</span>"
 
 mate.get '/', ->
   @foo = 'bar'
