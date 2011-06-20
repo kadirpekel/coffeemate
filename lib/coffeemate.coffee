@@ -100,9 +100,14 @@ class Coffeemate extends connect.HTTPServer
   # sugarize coffeekup!
   #
   # @api public
-  coffeekup: ->
+  coffeekup: (locals) ->
     renderFunc = require('coffeekup').render
-    @options.renderFunc = (tmpl, ctx) -> renderFunc tmpl, context: ctx
+    
+    locals ?= {}
+    locals.include ?= (partialName) ->
+      text ck_options.context.include partialName    
+    
+    @options.renderFunc = (tmpl, ctx) -> renderFunc tmpl, context: ctx, locals: locals
 
   # Build connect router middleware from internal route stack and automatically use it.
   # 
