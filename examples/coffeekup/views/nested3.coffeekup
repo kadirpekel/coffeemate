@@ -1,2 +1,2 @@
 p ->
-  highlight "#ff0", "This is a highlighted text"
+  highlight "#ff0", "This is a highlighted #{@foo}"

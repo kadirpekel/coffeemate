@@ -2,6 +2,9 @@ html ->
   head
   body ->
     h1 "A cup of coffee demonstration"
-    include "nested1"
-    include "nested2"
-    include "nested3"
+    div ->
+      include "nested1"
+    div ->
+      include "nested2"
+    div ->
+      include "nested3"
