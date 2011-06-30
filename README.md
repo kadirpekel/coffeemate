@@ -33,7 +33,7 @@ mate
   .get '/greet/:name', ->
     # this is context variable
     @greet_msg = "Hello, #{@req.params.name}"
-    @resp.render 'home.eco'
+    @render 'home.eco'
 
 # Listen it
 mate.listen 3000
