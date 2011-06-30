@@ -6,7 +6,9 @@ Coffeemate!
  C[_] coffeemate, the coffee creamer!
 ```
 coffeemate is a web framework built on top of connect and specialized for writing web apps comfortably in coffeescript.
-It uses eco template engine by default for fullfill coffeescript experience.
+It uses eco template engine by default for fullfill coffeescript experience. But also using coffeekup or any other template engine is only a matter of few seconds.
+
+coffeemate's magic is hidden in itself that, it is perfectly a singleton instance of `connect` framework's `HTTPServer` implementation. So hacking coffeemate is pretty easy and funny :)
 
 
 What is it look like?
@@ -66,7 +68,7 @@ Demos & Examples
 
 See plenty of examples
 
-<https://github.com/coffeemate/coffeemate/tree/master/examples>
+<https://github.com/kadirpekel/coffeemate/tree/master/examples>
 
 Also wanna see something real and cool? Check coffeegrind, the boilerplate lets you give a great start.
 
