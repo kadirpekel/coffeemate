@@ -78,6 +78,10 @@ class Coffeemate extends connect.HTTPServer
     @options = renderFunc: eco.render, renderDir: '', renderExt: ''
     @routes = []
     connect.HTTPServer.call @, []
+    
+    # enable socket.io if available
+    try @io = require('socket.io').listen @
+      
 
   # Factory method for creating new Coffeemate instances
   # 

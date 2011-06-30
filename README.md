@@ -29,11 +29,14 @@ mate.context.highlight = (color, txt) ->
   "<span style=\"background-color:#{color}\">#{txt}</span>"
 
 # Route it
-mate
-  .get '/greet/:name', ->
-    # this is context variable
-    @greet_msg = "Hello, #{@req.params.name}"
-    @render 'home.eco'
+mate.get '/greet/:name', ->
+	# this is context variable
+	@greet_msg = "Hello, #{@req.params.name}"
+	@render 'home.eco'
+
+# Stream it
+mate.io.sockets.on 'connection', (socket) ->
+	socket.emit 'greet', 'Welcome to coffeemate stream'
 
 # Listen it
 mate.listen 3000

@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    
+      var socket = io.connect('http://localhost:3000');
+      
+      socket.on('news', function (data) {
+        document.getElementById('newsbox').innerHTML += '<p>' + data + '</p>';
+      });
+        
+    </script>
+  </head>
+  <body>
+    <div id="newsbox">
+      <h3>News</h3>
+      
+    </div>
+  </body>
+</html>
