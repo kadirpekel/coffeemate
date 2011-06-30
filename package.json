@@ -14,6 +14,6 @@
 , "repository" :
   {
     "type": "git"
-  , "url": "http://github.com/coffeemate/coffeemate"
+  , "url": "http://github.com/kadirpekel/coffeemate"
   }
 }
