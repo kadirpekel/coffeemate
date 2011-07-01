@@ -1,77 +1,105 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset='utf-8'>
+<!DOCTYPE html>  <html> <head>   <title>coffeemate.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               coffeemate.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>coffeemate
+Copyright(c) 2011 Kadir Pekel.
+MIT Licensed</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Module dependencies</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">sys       = </span><span class="nx">require</span> <span class="s1">&#39;sys&#39;</span>
+<span class="nv">fs        = </span><span class="nx">require</span> <span class="s1">&#39;fs&#39;</span>
+<span class="nv">path      = </span><span class="nx">require</span> <span class="s1">&#39;path&#39;</span>
+<span class="nv">connect   = </span><span class="nx">require</span> <span class="s1">&#39;connect&#39;</span>
+<span class="nv">eco       = </span><span class="nx">require</span> <span class="s1">&#39;eco&#39;</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Context object that instantiated in every request to
+form router handlers' and templates'  @/this reference</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nx">CoffeemateContext</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>constructor</p>
 
-  <title>kadirpekel/coffeemate @ GitHub</title>
+<p>@param {Object} container
+@param {Object} resp
+@param {Object} resp
+@api public</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">constructor: </span><span class="nf">(@container, @req, @resp) -&gt;</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Simple built-in extension that sends http redirect to client</p>
 
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #53ba9a;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #000000;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #ac4565; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #ac4565; }
-    h3 { text-align: center; color: #ac4565; }
-    a { color: #ac4565; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
-</head>
+<p>@param {String} location
+@api public</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">redirect: </span><span class="nf">(location) -&gt;</span>
+    <span class="nx">@resp</span><span class="p">.</span><span class="nx">writeHead</span> <span class="mi">301</span><span class="p">,</span> <span class="nv">location: </span><span class="nx">location</span>
+    <span class="nx">@resp</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>This method renders the template that read from given templateName
+using eco template engine. It uses async file read operation to obtain
+template contents</p>
 
-<body>
-  <a href="http://github.com/kadirpekel/coffeemate"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+<p>@param {String} templateName
+@api public</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">render: </span><span class="nf">(templateName) -&gt;</span>
+    <span class="nv">templatePath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">(),</span>
+      <span class="nx">@container</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">renderDir</span><span class="p">,</span>
+      <span class="s2">&quot;#{templateName}#{@container.options.renderExt}&quot;</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">templatePath</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">template</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="k">if</span> <span class="nx">err</span> <span class="k">then</span> <span class="k">throw</span> <span class="nx">err</span>
+      <span class="nx">@resp</span><span class="p">.</span><span class="nx">end</span> <span class="nx">@container</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">renderFunc</span> <span class="s2">&quot;#{template}&quot;</span><span class="p">,</span> <span class="err">@</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>This method renders and includes the partial template that read and rendered
+from given partial template name.</p>
 
-  <div id="container">
+<p>@param {String} partialName
+@return {String}
+@api public</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">include: </span><span class="nf">(partialName) -&gt;</span>
+    <span class="nv">partialPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">(),</span>
+      <span class="nx">@container</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">renderDir</span><span class="p">,</span>
+      <span class="s2">&quot;#{partialName}#{@container.options.renderExt}&quot;</span>
+    <span class="nv">partial = </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span> <span class="nx">partialPath</span>
+    <span class="nx">@container</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">renderFunc</span> <span class="s2">&quot;#{partial}&quot;</span><span class="p">,</span> <span class="err">@</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Coffeemate core object
+Kindly extends connect.HTTPServer and pours some sugar on it.</p>
 
-    <div class="download">
-      <a href="http://github.com/kadirpekel/coffeemate/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/kadirpekel/coffeemate/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
+<p>@api private</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nx">Coffeemate</span> <span class="k">extends</span> <span class="nx">connect</span><span class="p">.</span><span class="nx">HTTPServer</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Expose CoffeemateContext constructor for external access</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">Context: </span><span class="nx">CoffeemateContext</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Shorthand reference for CoffeemateContext.prototype to simplify the extension mechanism</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">context: CoffeemateContext::</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Expose connect's built-in middleware stack explicitly for external access</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">middleware: </span><span class="nx">connect</span><span class="p">.</span><span class="nx">middleware</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>constructor</p>
 
-    <h1><a href="http://github.com/kadirpekel/coffeemate">coffeemate</a>
-      <span class="small">by <a href="http://github.com/kadirpekel">kadirpekel</a></span></h1>
+<p>@api public</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">constructor: </span><span class="o">-&gt;</span>
+    <span class="vi">@options = </span><span class="nv">renderFunc: </span><span class="nx">eco</span><span class="p">.</span><span class="nx">render</span><span class="p">,</span> <span class="nv">renderDir: </span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nv">renderExt: </span><span class="s1">&#39;&#39;</span>
+    <span class="vi">@routes = </span><span class="p">[]</span>
+    <span class="nx">connect</span><span class="p">.</span><span class="nx">HTTPServer</span><span class="p">.</span><span class="nx">call</span> <span class="err">@</span><span class="p">,</span> <span class="p">[]</span>
+    </pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>enable socket.io if available</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">try</span> <span class="vi">@io = </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;socket.io&#39;</span><span class="p">).</span><span class="nx">listen</span> <span class="err">@</span>
+      </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Factory method for creating new Coffeemate instances</p>
 
-    <div class="description">
-      coffeemate - the coffee creamer!
-    </div>
+<p>@return {Object}
+@api public</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">newInstance: </span><span class="o">-&gt;</span>
+    <span class="k">new</span> <span class="nx">Coffeemate</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Override 'connect.HTTPServer.use' method so if any argument is a Coffeemate instance
+build its internal route stack as a self used middleware.</p>
 
-    <h2>Authors</h2>
-<p>Kadir Pekel (kadirpekel@gmail.com)<br/><br/>      </p>
-<h2>Contact</h2>
-<p>kadir pekel (kadirpekel@gmail.com)<br/>      </p>
+<p>@param {String|Function}
+@param {Function} handle
+@return {Server}
+@api public</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">use: </span><span class="nf">(args...) -&gt;</span>
+    <span class="nx">arg</span><span class="p">.</span><span class="nx">buildRouter</span><span class="p">()</span> <span class="k">for</span> <span class="nx">arg</span> <span class="k">in</span> <span class="nx">args</span> <span class="k">when</span> <span class="nx">arg</span> <span class="k">instanceof</span> <span class="nx">Coffeemate</span>
+    <span class="nx">connect</span><span class="p">.</span><span class="nx">HTTPServer</span><span class="o">::</span><span class="nx">use</span><span class="p">.</span><span class="nx">apply</span> <span class="err">@</span><span class="p">,</span> <span class="nx">args</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>sugarize coffeekup!</p>
 
+<p>@api public</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">coffeekup: </span><span class="nf">(locals) -&gt;</span>
+    <span class="nv">renderFunc = </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;coffeekup&#39;</span><span class="p">).</span><span class="nx">render</span>
+    
+    <span class="nx">locals</span> <span class="o">?=</span> <span class="p">{}</span>
+    <span class="nx">locals</span><span class="p">.</span><span class="nx">include</span> <span class="o">?=</span> <span class="nf">(partialName) -&gt;</span>
+      <span class="nx">text</span> <span class="nx">ck_options</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">include</span> <span class="nx">partialName</span>    
+    
+    <span class="vi">@options.renderFunc = </span><span class="nf">(tmpl, ctx) -&gt;</span> <span class="nx">renderFunc</span> <span class="nx">tmpl</span><span class="p">,</span> <span class="nv">context: </span><span class="nx">ctx</span><span class="p">,</span> <span class="nv">locals: </span><span class="nx">locals</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Build connect router middleware from internal route stack and automatically use it.</p>
 
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/kadirpekel/coffeemate/zipball/master">zip</a> or
-      <a href="http://github.com/kadirpekel/coffeemate/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/kadirpekel/coffeemate</pre>
-    </p>
+<p>@api private</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">buildRouter: </span><span class="o">-&gt;</span>
+    <span class="nx">@use</span> <span class="nx">@middleware</span><span class="p">.</span><span class="nx">router</span> <span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="k">for</span> <span class="nx">route</span> <span class="k">in</span> <span class="nx">@routes</span>
+        <span class="nx">do</span> <span class="p">(</span><span class="nx">route</span><span class="p">)</span> <span class="o">=&gt;</span>
+          <span class="nx">app</span><span class="p">[</span><span class="nx">route</span><span class="p">.</span><span class="nx">method</span><span class="p">]</span> <span class="nx">route</span><span class="p">.</span><span class="nx">pattern</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">resp</span><span class="p">)</span> <span class="o">=&gt;</span>
+            <span class="nx">route</span><span class="p">.</span><span class="nx">callback</span><span class="p">.</span><span class="nx">apply</span> <span class="k">new</span> <span class="nx">CoffeemateContext</span><span class="p">(</span><span class="err">@</span><span class="p">,</span> <span class="nx">req</span><span class="p">,</span> <span class="nx">resp</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Override 'connect.HTTPServer.listen' to create a pre-hook space for
+preparing router definitions</p>
 
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/kadirpekel/coffeemate">kadirpekel/coffeemate</a>
-    </div>
+<p>@param {Number} port
+@param {String} hostname
+@param {Function} callback
+@api public</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">listen: </span><span class="nf">(args...) -&gt;</span>
+    <span class="nx">@buildRouter</span><span class="p">()</span>
+    <span class="nx">connect</span><span class="p">.</span><span class="nx">HTTPServer</span><span class="o">::</span><span class="nx">listen</span><span class="p">.</span><span class="nx">apply</span> <span class="err">@</span><span class="p">,</span> <span class="nx">args</span></pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Create shorthand middleware definitions using connect's built-in middleware stack</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">for</span> <span class="nx">item</span> <span class="k">of</span> <span class="nx">Coffeemate</span><span class="o">::</span><span class="nx">middleware</span>
+  <span class="nx">do</span> <span class="nf">(item) -&gt;</span>
+    <span class="nx">Coffeemate</span><span class="o">::</span><span class="p">[</span><span class="nx">item</span><span class="p">]</span> <span class="o">=</span> <span class="nf">(args...) -&gt;</span>
+      <span class="nx">@use</span> <span class="nx">@middleware</span><span class="p">[</span><span class="nx">item</span><span class="p">].</span><span class="nx">apply</span> <span class="err">@</span><span class="p">,</span> <span class="nx">args</span></pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Create shorthand router definitions using connect's router middleware</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">for</span> <span class="nx">method</span> <span class="k">in</span> <span class="nx">Coffeemate</span><span class="o">::</span><span class="nx">middleware</span><span class="p">.</span><span class="nx">router</span><span class="p">.</span><span class="nx">methods</span>
+  <span class="nx">do</span> <span class="nf">(method) -&gt;</span>
+    <span class="nx">Coffeemate</span><span class="o">::</span><span class="p">[</span><span class="nx">method</span><span class="p">]</span> <span class="o">=</span> <span class="nf">(pattern, callback) -&gt;</span>
+      <span class="nx">@routes</span><span class="p">.</span><span class="nx">push</span> <span class="nv">method: </span><span class="nx">method</span><span class="p">,</span> <span class="nv">pattern: </span><span class="nx">pattern</span><span class="p">,</span> <span class="nv">callback: </span><span class="nx">callback</span>
+      <span class="err">@</span></pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Handle uncaught exceptions explicitly to prevent node exiting
+current process. Exception stack trace is sent to stderr.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">process</span><span class="p">.</span><span class="kc">on</span> <span class="s1">&#39;uncaughtException&#39;</span><span class="p">,</span> <span class="nf">(err) -&gt;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="k">if</span> <span class="nx">err</span> <span class="k">instanceof</span> <span class="nb">Error</span> <span class="k">then</span> <span class="nx">err</span><span class="p">.</span><span class="nx">stack</span> <span class="k">else</span> <span class="nx">err</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Export Coffeemate as a pre-instantiated instance
+use 'newInstance' method to create another ones</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">module.exports = </span><span class="k">new</span> <span class="nx">Coffeemate</span>
 
-  </div>
-
-  
-</body>
-</html>
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
