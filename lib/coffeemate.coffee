@@ -30,30 +30,26 @@ class CoffeemateContext
     @resp.end()
 
   # This method renders the template that read from given templateName
-  # using eco template engine. It uses sync file read operation to obtain
-  # template contents
+  # using eco template engine as default.
+  # It uses sync file read operation to obtain template contents
   #
   # @param {String} templateName
+  # @return {String}
   # @api public
-  render: (templateName) ->
+  include: (templateName) ->
     templatePath = path.join process.cwd(),
       @container.options.renderDir,
       "#{templateName}#{@container.options.renderExt}"
     template = fs.readFileSync templatePath
-    @resp.end @container.options.renderFunc "#{template}", @
-  
-  # This method renders and includes the partial template that read and rendered
-  # from given partial template name.
+    @container.options.renderFunc "#{template}", @
+
+  # This method renders the template that read from given templateName
+  # and writes the output to the client socket stream
   #
-  # @param {String} partialName
-  # @return {String}
-  # @api public
-  include: (partialName) ->
-    partialPath = path.join process.cwd(),
-      @container.options.renderDir,
-      "#{partialName}#{@container.options.renderExt}"
-    partial = fs.readFileSync partialPath
-    @container.options.renderFunc "#{partial}", @
+  # @param {String} templateName
+  # @api public  
+  render: (templateName) ->
+    @resp.end  @include templateName
 
 # Coffeemate core object
 # Kindly extends connect.HTTPServer and pours some sugar on it.
