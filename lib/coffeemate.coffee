@@ -30,7 +30,7 @@ class CoffeemateContext
     @resp.end()
 
   # This method renders the template that read from given templateName
-  # using eco template engine. It uses async file read operation to obtain
+  # using eco template engine. It uses sync file read operation to obtain
   # template contents
   #
   # @param {String} templateName
@@ -39,9 +39,8 @@ class CoffeemateContext
     templatePath = path.join process.cwd(),
       @container.options.renderDir,
       "#{templateName}#{@container.options.renderExt}"
-    fs.readFile templatePath, (err, template) =>
-      if err then throw err
-      @resp.end @container.options.renderFunc "#{template}", @
+    template = fs.readFileSync templatePath
+    @resp.end @container.options.renderFunc "#{template}", @
   
   # This method renders and includes the partial template that read and rendered
   # from given partial template name.
