@@ -49,7 +49,7 @@ class CoffeemateContext
   # @param {String} templateName
   # @api public  
   render: (templateName) ->
-    @resp.end  @include templateName
+    @resp.end @include templateName
 
 # Coffeemate core object
 # Kindly extends connect.HTTPServer and pours some sugar on it.
