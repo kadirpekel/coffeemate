@@ -58,7 +58,7 @@ mate.listen 3000
 
 <h1>Welcome to Coffeemate</h1>
 <div><%- @highlight '#f00', @greet_msg %></div>
-<div><%- @include 'nested.eco' %></div>
+<div><%- @include 'nested' %></div>
 ```
 
 ``` html
