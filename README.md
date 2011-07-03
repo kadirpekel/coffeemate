@@ -32,7 +32,7 @@ mate.context.highlight = (color, txt) ->
 mate.get '/greet/:name', ->
 	# this is context variable
 	@greet_msg = "Hello, #{@req.params.name}"
-	@render 'home'
+	@render 'main'
 
 # Stream it
 mate.io.sockets.on 'connection', (socket) ->
