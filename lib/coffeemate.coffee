@@ -12,7 +12,6 @@ fs        = require 'fs'
 path      = require 'path'
 connect   = require 'connect'
 eco       = require 'eco'
-util      = require 'util'
 
 # Context object that instantiated in every request to
 # form router handlers' and templates'  @/this reference
@@ -109,7 +108,6 @@ class Coffeemate extends connect.HTTPServer
     @baseUrl = baseUrl
     callback.call @
     @baseUrl = previousBaseUrl
-    module
 
   # Factory method for creating new Coffeemate instances
   # 
