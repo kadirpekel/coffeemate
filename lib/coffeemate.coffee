@@ -2,6 +2,9 @@
 # Copyright(c) 2011 Kadir Pekel.
 # MIT Licensed
 
+# version info
+VERSION = '0.4.0'
+
 # Module dependencies
 
 sys       = require 'sys'
@@ -79,7 +82,7 @@ class Coffeemate extends connect.HTTPServer
   # constructor
   #
   # @api public
-  constructor: ->
+  constructor: (@version=VERSION) ->
     @options =
       renderFunc: eco.render,
       renderDir: '',
