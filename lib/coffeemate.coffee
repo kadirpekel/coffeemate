@@ -9,6 +9,7 @@ fs        = require 'fs'
 path      = require 'path'
 connect   = require 'connect'
 eco       = require 'eco'
+util      = require 'util'
 
 # Context object that instantiated in every request to
 # form router handlers' and templates'  @/this reference
@@ -28,7 +29,7 @@ class CoffeemateContext
   redirect: (location) ->
     @resp.writeHead 301, location: location
     @resp.end()
-
+      
   # This method renders the template that read from given templateName
   # using eco template engine as default.
   # It uses sync file read operation to obtain template contents
@@ -41,14 +42,23 @@ class CoffeemateContext
       @container.options.renderDir,
       "#{templateName}#{@container.options.renderExt}"
     template = fs.readFileSync templatePath
-    @container.options.renderFunc "#{template}", @
+    content = @container.options.renderFunc "#{template}", @
 
   # This method renders the template that read from given templateName
   # and writes the output to the client socket stream
   #
+  # You can explicitly set 'layoutName' if want to override the default 
+  # 'renderLayoutName' option value
+  #
   # @param {String} templateName
-  # @api public  
-  render: (templateName) ->
+  # @param {String} layoutName
+  # @api public
+  render: (templateName, layoutName) ->
+    if @container.options.renderLayout
+      layoutName ?= @container.options.renderLayoutName
+      @[@container.options.renderLayoutPlaceholder] = templateName
+      @resp.end @include layoutName
+      return
     @resp.end @include templateName
 
 # Coffeemate core object
@@ -70,13 +80,33 @@ class Coffeemate extends connect.HTTPServer
   #
   # @api public
   constructor: ->
-    @options = renderFunc: eco.render, renderDir: '', renderExt: ''
-    @routes = []
+    @options =
+      renderFunc: eco.render,
+      renderDir: '',
+      renderExt: '.eco',
+      renderLayout: yes,
+      renderLayoutName: 'layout',
+      renderLayoutPlaceholder: 'body'
+    @routeMap = {}
+    @baseUrl = '/'
     connect.HTTPServer.call @, []
     
     # enable socket.io if available
     try @io = require('socket.io').listen @
-      
+  
+  # This method helps you define sub applications under given base path.
+  # The context of callback is coffeemate instance itself and any router definition
+  # in this context will be constructed based on the baseUrl
+  #
+  # @param {String} baseUrl
+  # @param {String} callback
+  # @api public
+  sub: (baseUrl, callback) ->
+    previousBaseUrl = @baseUrl
+    @baseUrl = baseUrl
+    callback.call @
+    @baseUrl = previousBaseUrl
+    module
 
   # Factory method for creating new Coffeemate instances
   # 
@@ -96,27 +126,27 @@ class Coffeemate extends connect.HTTPServer
     arg.buildRouter() for arg in args when arg instanceof Coffeemate
     connect.HTTPServer::use.apply @, args
   
-  # sugarize coffeekup!
+  # Enable special coffeekup templating magic!
   #
   # @api public
   coffeekup: (locals) ->
     renderFunc = require('coffeekup').render
-    
     locals ?= {}
     locals.include ?= (partialName) ->
       text ck_options.context.include partialName    
-    
     @options.renderFunc = (tmpl, ctx) -> renderFunc tmpl, context: ctx, locals: locals
 
   # Build connect router middleware from internal route stack and automatically use it.
   # 
   # @api private
   buildRouter: ->
-    @use @middleware.router (app) =>
-      for route in @routes
-        do (route) =>
-          app[route.method] route.pattern, (req, resp) =>
-            route.callback.apply new CoffeemateContext(@, req, resp)
+    self = @
+    for root, routes of @routeMap
+      @use root, @middleware.router (app) ->
+        for route in routes
+          do (route) ->
+            app[route.method] route.pattern, (req, resp) ->
+              route.callback.apply new CoffeemateContext(self, req, resp)
 
   # Override 'connect.HTTPServer.listen' to create a pre-hook space for
   # preparing router definitions
@@ -139,7 +169,8 @@ for item of Coffeemate::middleware
 for method in Coffeemate::middleware.router.methods
   do (method) ->
     Coffeemate::[method] = (pattern, callback) ->
-      @routes.push method: method, pattern: pattern, callback: callback
+      @routeMap[@baseUrl] ?= []
+      @routeMap[@baseUrl].push method: method, pattern: pattern, callback: callback
       @
 
 # Handle uncaught exceptions explicitly to prevent node exiting

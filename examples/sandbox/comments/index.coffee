@@ -1,5 +1,3 @@
-mate = require('../../../lib/coffeemate').newInstance()
+mate = require '../../../lib/coffeemate'
 
-mate.get '/', -> @view 'list'
-
-module.exports = mate
+mate.get '/', -> @render 'comments/index', 'comment_layout'

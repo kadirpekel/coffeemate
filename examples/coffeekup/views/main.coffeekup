@@ -1,10 +1,7 @@
-html ->
-  head
-  body ->
-    h1 "A cup of coffee demonstration"
-    div ->
-      include "nested1"
-    div ->
-      include "nested2"
-    div ->
-      include "nested3"
+h1 "A cup of coffee demonstration"
+div ->
+  include "nested1"
+div ->
+  include "nested2"
+div ->
+  include "nested3"

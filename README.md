@@ -32,7 +32,7 @@ mate.context.highlight = (color, txt) ->
 mate.get '/greet/:name', ->
 	# this is context variable
 	@greet_msg = "Hello, #{@req.params.name}"
-	@render 'home.eco'
+	@render 'home'
 
 # Stream it
 mate.io.sockets.on 'connection', (socket) ->
@@ -40,6 +40,17 @@ mate.io.sockets.on 'connection', (socket) ->
 
 # Listen it
 mate.listen 3000
+```
+
+``` html
+<!-- layout.eco -->
+<html>
+  <head>
+  </head>
+  <body>
+      <%- @include @body %>
+  </body>
+</html>
 ```
 
 ``` html

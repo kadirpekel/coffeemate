@@ -2,6 +2,6 @@ mate = require '../../lib/coffeemate'
 
 mate.get '/:page?', ->
   @foo = 'bar'        # this is a context variable
-  @render 'main.eco'
+  @render 'main'
 
 mate.listen 3000
