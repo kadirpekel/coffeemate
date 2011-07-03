@@ -18,11 +18,11 @@ eco       = require 'eco'
 class CoffeemateContext
   # constructor
   #
-  # @param {Object} container
+  # @param {Object} cnt (container coffeemate instance)
   # @param {Object} resp
   # @param {Object} resp
   # @api public
-  constructor: (@container, @req, @resp) ->
+  constructor: (@cnt, @req, @resp) ->
   
   # Simple built-in extension that sends http redirect to client
   #
@@ -40,11 +40,9 @@ class CoffeemateContext
   # @return {String}
   # @api public
   include: (templateName) ->
-    templatePath = path.join process.cwd(),
-      @container.options.renderDir,
-      "#{templateName}#{@container.options.renderExt}"
+    templatePath = path.join process.cwd(), @cnt.options.renderDir, "#{templateName}#{@cnt.options.renderExt}"
     template = fs.readFileSync templatePath
-    content = @container.options.renderFunc "#{template}", @
+    @cnt.options.renderFunc "#{template}", @
 
   # This method renders the template that read from given templateName
   # and writes the output to the client socket stream
@@ -55,12 +53,9 @@ class CoffeemateContext
   # @param {String} templateName
   # @param {String} layoutName
   # @api public
-  render: (templateName, layoutName) ->
-    if @container.options.renderLayout
-      layoutName ?= @container.options.renderLayoutName
-      @[@container.options.renderLayoutPlaceholder] = templateName
-      @resp.end @include layoutName
-      return
+  render: (templateName, layoutName=@cnt.options.renderLayoutName, layout=@cnt.options.renderLayout) ->
+    @[@cnt.options.renderLayoutPlaceholder] = templateName
+    templateName = layout and layoutName or templateName
     @resp.end @include templateName
 
 # Coffeemate core object
@@ -82,13 +77,7 @@ class Coffeemate extends connect.HTTPServer
   #
   # @api public
   constructor: (@version=VERSION) ->
-    @options =
-      renderFunc: eco.render,
-      renderDir: '',
-      renderExt: '.eco',
-      renderLayout: yes,
-      renderLayoutName: 'layout',
-      renderLayoutPlaceholder: 'body'
+    @options = renderFunc: eco.render, renderDir: '', renderExt: '.eco', renderLayout: yes, renderLayoutName: 'layout', renderLayoutPlaceholder: 'body'
     @routeMap = {}
     @baseUrl = '/'
     connect.HTTPServer.call @, []
@@ -133,8 +122,7 @@ class Coffeemate extends connect.HTTPServer
   coffeekup: (locals) ->
     renderFunc = require('coffeekup').render
     locals ?= {}
-    locals.include ?= (partialName) ->
-      text ck_options.context.include partialName    
+    locals.include ?= (partialName) -> text ck_options.context.include partialName    
     @options.renderFunc = (tmpl, ctx) -> renderFunc tmpl, context: ctx, locals: locals
 
   # Build connect router middleware from internal route stack and automatically use it.
@@ -177,7 +165,7 @@ for method in Coffeemate::middleware.router.methods
 # Handle uncaught exceptions explicitly to prevent node exiting
 # current process. Exception stack trace is sent to stderr.
 process.on 'uncaughtException', (err) ->
-  console.error(if err instanceof Error then err.stack else err)
+  console.error err instanceof Error and err.stack or err
 
 # Export Coffeemate as a pre-instantiated instance
 # use 'newInstance' method to create another ones
