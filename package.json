@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "eco": "1.0.3",
-    "connect": "1.5.2",
+    "connect": "1.5.1",
     "socket.io": "0.7.6",
     "coffee-script": "1.1.1"
   },
