@@ -1,10 +1,9 @@
 {
-  "version": "0.4.1",
+  "version": "0.4.2",
   "author": "Kadir Pekel <kadirpekel@gmail.com>",
   "name": "coffeemate",
   "description": "the coffee creamer!",
   "readme": "http://github.com/coffeemate/coffeematel#readme",
-  "main": "lib/coffeemate.coffee",
   "engines": {
     "node": ">= v0.4.7"
   },

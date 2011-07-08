@@ -3,7 +3,7 @@
 # MIT Licensed
 
 # version info
-VERSION = '0.4.1'
+VERSION = '0.4.2'
 
 # Module dependencies
 
