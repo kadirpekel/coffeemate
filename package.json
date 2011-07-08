@@ -1,19 +1,21 @@
-{ "readme": "http://github.com/coffeemate/coffeematel#readme"
-, "version": "0.4.1"
-, "description": "the coffee creamer!"
-, "main": "lib/coffeemate.coffee"
-, "author": "Kadir Pekel <kadirpekel@gmail.com>"
-, "name": "coffeemate"
-, "engines": { "node": ">=0.4.7" }
-, "dependencies":
-  {
-    "connect": ">= 1.0.0",
-    "eco": ">= 1.0.0",
-    "socket.io": ">=0.7.6"
-  }
-, "repository" :
-  {
-    "type": "git"
-  , "url": "http://github.com/kadirpekel/coffeemate"
+{
+  "version": "0.4.1",
+  "author": "Kadir Pekel <kadirpekel@gmail.com>",
+  "name": "coffeemate",
+  "description": "the coffee creamer!",
+  "readme": "http://github.com/coffeemate/coffeematel#readme",
+  "main": "lib/coffeemate.coffee",
+  "engines": {
+    "node": ">= v0.4.7"
+  },
+  "dependencies": {
+    "eco": "1.0.3",
+    "connect": "1.5.2",
+    "socket.io": "0.7.6",
+    "coffee-script": "1.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/kadirpekel/coffeemate"
   }
 }
