@@ -5,7 +5,7 @@
   "description": "the coffee creamer!",
   "readme": "http://github.com/coffeemate/coffeematel#readme",
   "engines": {
-    "node": ">= v0.4.7"
+    "node": ">= v0.4.5"
   },
   "dependencies": {
     "eco": "1.0.3",
