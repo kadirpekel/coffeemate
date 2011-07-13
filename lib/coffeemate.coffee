@@ -3,7 +3,7 @@
 # MIT Licensed
 
 # version info
-VERSION = '0.4.3'
+VERSION = '0.4.4'
 
 # Module dependencies
 
@@ -22,7 +22,7 @@ class CoffeemateContext
   # @param {Object} resp
   # @param {Object} resp
   # @api public
-  constructor: (@cnt, @req, @resp) ->
+  constructor: (@cnt, @req, @resp, @next) ->
   
   # Simple built-in extension that sends http redirect to client
   #
@@ -134,8 +134,8 @@ class Coffeemate extends connect.HTTPServer
       @use root, @middleware.router (app) ->
         for route in routes
           do (route) ->
-            app[route.method] route.pattern, (req, resp) ->
-              route.callback.apply new CoffeemateContext(self, req, resp)
+            app[route.method] route.pattern, (req, resp, next) ->
+              route.callback.apply new CoffeemateContext(self, req, resp, next)
 
   # Override 'connect.HTTPServer.listen' to create a pre-hook space for
   # preparing router definitions
