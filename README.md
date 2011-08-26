@@ -34,9 +34,9 @@ mate.get '/greet/:name', ->
 	@greet_msg = "Hello, #{@req.params.name}"
 	@render 'main'
 
-# Stream it
-mate.io.sockets.on 'connection', (socket) ->
-	socket.emit 'greet', 'Welcome to coffeemate stream'
+# Remote it
+mate.now.greet = ->
+	console.log 'Hello, World!'
 
 # Listen it
 mate.listen 3000
@@ -46,6 +46,12 @@ mate.listen 3000
 <!-- layout.eco -->
 <html>
   <head>
+    <script src="/nowjs/now.js"></script>
+    <script type="text/javascript">
+      now.ready(function () {
+        now.greet();
+      });
+    </script>
   </head>
   <body>
       <%- @include @body %>

@@ -1,0 +1,12 @@
+<html>
+  <head>
+    <script src="/nowjs/now.js"></script>
+    <script type="text/javascript">
+      now.ready(function () {
+        now.greet();
+      });
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
