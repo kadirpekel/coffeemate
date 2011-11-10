@@ -95,14 +95,6 @@ See plenty of examples
 
 <https://github.com/kadirpekel/coffeemate/tree/master/examples>
 
-Also wanna see something real and cool? Check coffeegrind, the boilerplate lets you give a great start.
-
-<https://github.com/twilson63/coffeegrind>
-
-Disclaimer
-----------
-coffeemate is currently in early stages, please stay tuned! <http://twitter.com/kadirpekel>
-
 Licence
 -------
 Copyright (c) 2011 Kadir Pekel.
