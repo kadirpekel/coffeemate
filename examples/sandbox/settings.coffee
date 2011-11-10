@@ -1,4 +1,4 @@
-mate = require '../../lib/coffeemate'
+mate = require '../../coffeemate'
 
 mate.options.renderDir = 'templates'
 mate.options.renderExt = '.html'

@@ -1,5 +1,5 @@
 coffeekup = require 'coffeekup'
-mate = require '../../lib/coffeemate'
+mate = require '../../coffeemate'
 
 
 mate.options.renderExt = '.coffeekup'

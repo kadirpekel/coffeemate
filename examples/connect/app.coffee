@@ -1,4 +1,4 @@
-mate = require '../../lib/coffeemate'
+mate = require '../../coffeemate'
 
 mate.logger()
 mate.static(__dirname + '/public')

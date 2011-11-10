@@ -1,4 +1,4 @@
-mate = require '../../lib/coffeemate'
+mate = require '../../coffeemate'
 
 mate.get '/', ->
   @foo = 'bar'

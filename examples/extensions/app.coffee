@@ -1,4 +1,4 @@
-mate = require '../../lib/coffeemate'
+mate = require '../../coffeemate'
 
 mate.context.send_xml = (msg) ->
   @resp.setHeader 'Content-Type', 'text/xml'

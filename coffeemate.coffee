@@ -3,11 +3,10 @@
 # MIT Licensed
 
 # version info
-VERSION = '0.4.4'
+VERSION = '0.5.1'
 
 # Module dependencies
 
-sys       = require 'sys'
 fs        = require 'fs'
 path      = require 'path'
 connect   = require 'connect'

@@ -1,4 +1,4 @@
-mate = require '../../lib/coffeemate'
+mate = require '../../coffeemate'
 
 mate.context.highlight = (msg) ->
   "<span style=\"background-color:#ff0\">#{msg}</span>"

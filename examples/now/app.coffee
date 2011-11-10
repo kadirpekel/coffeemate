@@ -1,4 +1,4 @@
-mate = require '../../lib/coffeemate.coffee'
+mate = require '../../coffeemate.coffee'
 
 mate.options.renderLayout = no
 
