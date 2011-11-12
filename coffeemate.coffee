@@ -82,7 +82,9 @@ class Coffeemate extends connect.HTTPServer
     connect.HTTPServer.call @, []
     
     # enable nowjs if available
-    try @now = require('now').initialize(@).now
+    try
+      @nowjs = require('now')
+      @now = @nowjs.initialize(@).now
   
   # This method helps you define sub applications under given base path.
   # The context of callback is coffeemate instance itself and any router definition
