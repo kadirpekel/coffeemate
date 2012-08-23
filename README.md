@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/kadirpekel/coffeemate.png)](http://travis-ci.org/kadirpekel/coffeemate)
 Coffeemate!
 ===========
 ```
